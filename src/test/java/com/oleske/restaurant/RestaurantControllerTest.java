@@ -1,10 +1,6 @@
-package com.oleske.controller;
+package com.oleske.restaurant;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oleske.restaurant.Restaurant;
-import com.oleske.restaurant.RestaurantController;
-import com.oleske.restaurant.RestaurantDto;
-import com.oleske.restaurant.RestaurantRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,7 +61,9 @@ public class RestaurantControllerTest {
                 1,
                 2
         );
+
         when(mockRestaurantRepository.save(any(Restaurant.class))).thenReturn(restaurant);
+
         mvc.perform(post("/newRestaurant")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -80,8 +78,7 @@ public class RestaurantControllerTest {
                 .andExpect(jsonPath("$.websiteUrl").value(request.getWebsiteUrl()))
                 .andExpect(jsonPath("$.rating").value(request.getRating()))
                 .andExpect(jsonPath("$.michelinStarRating").value(request.getMichelinStarRating()))
-                .andExpect(jsonPath("$.zagatRating").value(request.getZagatRating()))
-        ;
+                .andExpect(jsonPath("$.zagatRating").value(request.getZagatRating()));
         verify(mockRestaurantRepository).save(request);
     }
 

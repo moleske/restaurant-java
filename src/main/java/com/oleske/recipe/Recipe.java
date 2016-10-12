@@ -15,7 +15,8 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(List<Ingredient> ingredients, String chef) {
+    public Recipe(Long id, List<Ingredient> ingredients, String chef) {
+        this.id = id;
         this.ingredients = ingredients;
         this.chef = chef;
     }
