@@ -13,11 +13,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecipeControllerTest {
@@ -61,4 +62,56 @@ public class RecipeControllerTest {
                 .andExpect(jsonPath("$.chef").value("Swedish Chef"));
         verify(mockRecipeRepository).save(request);
     }
+
+    @Test
+    public void recipeContainsSignificantAmountOfDairy_whenRecipeIsNull_returnsFalse() throws Exception {
+        when(mockRecipeRepository.findOne(anyLong())).thenReturn(null);
+        mvc.perform(get("/recipeHasDairy?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+        verify(mockRecipeRepository).findOne(1L);
+    }
+
+    @Test
+    public void recipeContainsSignificantAmountOfDairy_whenRecipeHasDairyIngredient_returnsTrue() throws Exception {
+        Recipe recipe = new Recipe(
+                1L,
+                singletonList(new Ingredient("Milk", IngredientCategory.DAIRY)),
+                "Swedish Chef"
+        );
+        when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
+        mvc.perform(get("/recipeHasDairy?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+        verify(mockRecipeRepository).findOne(1L);
+    }
+
+    @Test
+    public void recipeContainsSignificantAmountOfDairy_whenRecipeNoHasDairyIngredient_returnsFalse() throws Exception {
+        Recipe recipe = new Recipe(
+                1L,
+                singletonList(new Ingredient("Not Milk", IngredientCategory.NUT)),
+                "Swedish Chef"
+        );
+        when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
+        mvc.perform(get("/recipeHasDairy?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+        verify(mockRecipeRepository).findOne(1L);
+    }
+
+    @Test
+    public void recipeContainsSignificantAmountOfDairy_whenRecipeHasNullIngredient_returnsFalse() throws Exception {
+        Recipe recipe = new Recipe(
+                1L,
+                singletonList(new Ingredient("Not Milk", null)),
+                "Swedish Chef"
+        );
+        when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
+        mvc.perform(get("/recipeHasDairy?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+        verify(mockRecipeRepository).findOne(1L);
+    }
+
 }
