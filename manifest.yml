@@ -1,0 +1,5 @@
+---
+applications:
+  - name: restaurant-java
+    buildpack: java_buildpack_offline
+    path: build/libs/wj-0.0.1-SNAPSHOT.jar
