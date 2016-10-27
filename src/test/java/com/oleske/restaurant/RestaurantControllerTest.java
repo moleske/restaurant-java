@@ -4,11 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -17,19 +18,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@WebMvcTest(RestaurantController.class)
 public class RestaurantControllerTest {
+    @Autowired
     private MockMvc mvc;
     private ObjectMapper objectMapper;
-    @Mock
+    @MockBean
     private RestaurantRepository mockRestaurantRepository;
 
     @Before
     public void setUp() throws Exception {
         objectMapper = new ObjectMapper();
-        mvc = MockMvcBuilders
-                .standaloneSetup(new RestaurantController(mockRestaurantRepository))
-                .build();
     }
 
     @Test

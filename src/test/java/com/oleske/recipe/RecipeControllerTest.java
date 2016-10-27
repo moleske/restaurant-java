@@ -4,11 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
@@ -20,19 +21,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@WebMvcTest(RecipeController.class)
 public class RecipeControllerTest {
+    @Autowired
     private MockMvc mvc;
     private ObjectMapper objectMapper;
-    @Mock
+    @MockBean
     private RecipeRepository mockRecipeRepository;
 
     @Before
     public void setUp() throws Exception {
         objectMapper = new ObjectMapper();
-        mvc = MockMvcBuilders
-                .standaloneSetup(new RecipeController(mockRecipeRepository))
-                .build();
     }
 
     @Test
