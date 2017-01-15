@@ -40,7 +40,6 @@ public class Ingredient {
 
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         return category == that.category;
-
     }
 
     @Override

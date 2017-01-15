@@ -119,7 +119,6 @@ public class Restaurant {
         if (fullDescription != null ? !fullDescription.equals(that.fullDescription) : that.fullDescription != null)
             return false;
         return websiteUrl != null ? websiteUrl.equals(that.websiteUrl) : that.websiteUrl == null;
-
     }
 
     @Override

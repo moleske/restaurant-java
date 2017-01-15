@@ -52,7 +52,6 @@ public class Recipe {
         if (id != null ? !id.equals(recipe.id) : recipe.id != null) return false;
         if (ingredients != null ? !ingredients.equals(recipe.ingredients) : recipe.ingredients != null) return false;
         return chef != null ? chef.equals(recipe.chef) : recipe.chef == null;
-
     }
 
     @Override
