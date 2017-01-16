@@ -68,7 +68,7 @@ public class RecipeControllerTest {
         when(mockRecipeRepository.findOne(anyLong())).thenReturn(null);
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("false"));
+                .andExpect(jsonPath("hasDairy").value("false"));
         verify(mockRecipeRepository).findOne(1L);
     }
 
@@ -82,7 +82,7 @@ public class RecipeControllerTest {
         when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("true"));
+                .andExpect(jsonPath("hasDairy").value("true"));
         verify(mockRecipeRepository).findOne(1L);
     }
 
@@ -96,7 +96,7 @@ public class RecipeControllerTest {
         when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("false"));
+                .andExpect(jsonPath("hasDairy").value("false"));
         verify(mockRecipeRepository).findOne(1L);
     }
 
@@ -110,7 +110,7 @@ public class RecipeControllerTest {
         when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("false"));
+                .andExpect(jsonPath("hasDairy").value("false"));
         verify(mockRecipeRepository).findOne(1L);
     }
 

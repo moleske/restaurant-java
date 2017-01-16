@@ -1,33 +1,40 @@
-buildscript {
-	ext {
-		springBootVersion = '1.4.3.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '1.4.3.RELEASE'
+    id 'org.asciidoctor.convert' version '1.5.3'
 }
-
-apply plugin: 'java'
-apply plugin: 'spring-boot'
-
-jar {
-	baseName = 'wj'
-	version = '0.0.1-SNAPSHOT'
-}
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
-
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.hsqldb:hsqldb')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    attributes 'snippets': snippetsDir
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+jar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
+    baseName = 'wj'
+    version = '0.0.1-SNAPSHOT'
 }

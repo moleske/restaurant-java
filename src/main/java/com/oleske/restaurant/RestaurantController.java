@@ -19,6 +19,4 @@ public class RestaurantController {
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
         return new ResponseEntity<>(restaurantRepository.save(restaurant), HttpStatus.CREATED);
     }
-
-
 }

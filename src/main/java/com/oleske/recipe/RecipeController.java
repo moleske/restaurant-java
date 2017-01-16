@@ -19,14 +19,14 @@ public class RecipeController {
     }
 
     @GetMapping("/recipeHasDairy")
-    public ResponseEntity<Boolean> recipeContainsSignificantAmountOfDairy(@RequestParam Long id) {
+    public ResponseEntity<String> recipeContainsSignificantAmountOfDairy(@RequestParam Long id) {
         Recipe recipe = recipeRepository.findOne(id);
         if (recipe != null) {
             boolean result = recipe.getIngredients()
                     .stream().anyMatch(ingredient ->
                             ingredient.getCategory() != null && ingredient.getCategory().equals(IngredientCategory.DAIRY));
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>("{ \"hasDairy\":" + result + "}", HttpStatus.OK);
         }
-        return new ResponseEntity<>(false, HttpStatus.OK);
+        return new ResponseEntity<>("{ \"hasDairy\":" + false + "}", HttpStatus.OK);
     }
 }
