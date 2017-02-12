@@ -23,9 +23,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
-    private ObjectMapper objectMapper;
+
     @MockBean
     private RestaurantRepository mockRestaurantRepository;
+
+    private ObjectMapper objectMapper;
 
     @Before
     public void setUp() throws Exception {

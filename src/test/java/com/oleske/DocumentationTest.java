@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oleske.recipe.Ingredient;
 import com.oleske.recipe.IngredientCategory;
 import com.oleske.recipe.Recipe;
+import com.oleske.restaurant.Restaurant;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -92,6 +93,57 @@ public class DocumentationTest {
                         ),
                         responseFields(
                                 fieldWithPath("hasDairy").description("Boolean if recipe of Id passed has dairy")
+                        )
+                ));
+    }
+
+    @Test
+    public void restaurantController() throws Exception {
+        Restaurant request = new Restaurant(
+                null,
+                "Swedish Food Company",
+                "Kermit the Frog",
+                "The Swedish Chef",
+                "Swedish",
+                "Zee best Svedeesh restoorunt! Bork Bork Bork!",
+                "Ve-a serfe-a ell types ooff meetbells tu pleese-a yuoor pelete-a! Nutheeng is tuu guud fur yuoo! Bork Bork Bork!",
+                "https://swedishfoodcompany.com",
+                90,
+                7,
+                5
+        );
+
+        mockMvc.perform(post("/newRestaurant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andDo(document("newRestaurant",
+                        requestFields(
+                                attributes(key("title").value("Fields for a New Restaurant")),
+                                fieldWithPath("id").ignored(),
+                                fieldWithPath("name").description("Name of Restaurant"),
+                                fieldWithPath("ownerName").description("Name of Owner"),
+                                fieldWithPath("headChefName").description("Name of Head Chef"),
+                                fieldWithPath("cuisineType").description("Type of Cuisine Served"),
+                                fieldWithPath("shortDescription").description("Short Description of Restaurant"),
+                                fieldWithPath("fullDescription").description("Long Description of Restaurant"),
+                                fieldWithPath("websiteUrl").description("Website of Restaurant"),
+                                fieldWithPath("rating").description("Restaurant Rating"),
+                                fieldWithPath("michelinStarRating").description("Michelin Rating"),
+                                fieldWithPath("zagatRating").description("Zagat Rating")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Id of saved of restaurant"),
+                                fieldWithPath("name").description("Name of Restaurant"),
+                                fieldWithPath("ownerName").description("Name of Owner"),
+                                fieldWithPath("headChefName").description("Name of Head Chef"),
+                                fieldWithPath("cuisineType").description("Type of Cuisine Served"),
+                                fieldWithPath("shortDescription").description("Short Description of Restaurant"),
+                                fieldWithPath("fullDescription").description("Long Description of Restaurant"),
+                                fieldWithPath("websiteUrl").description("Website of Restaurant"),
+                                fieldWithPath("rating").description("Restaurant Rating"),
+                                fieldWithPath("michelinStarRating").description("Michelin Rating"),
+                                fieldWithPath("zagatRating").description("Zagat Rating")
                         )
                 ));
     }
