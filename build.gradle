@@ -27,13 +27,14 @@ test {
 asciidoctor {
     attributes 'snippets': snippetsDir
     inputs.dir snippetsDir
+    outputDir 'build/asciidoc'
     dependsOn test
 }
 
 jar {
     dependsOn asciidoctor
     from ("${asciidoctor.outputDir}/html5") {
-        into 'static/docs'
+        into 'static'
     }
     baseName = 'wj'
     version = '0.0.1-SNAPSHOT'
