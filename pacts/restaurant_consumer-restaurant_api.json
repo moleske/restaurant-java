@@ -1,0 +1,86 @@
+{
+    "provider": {
+        "name": "restaurant_api"
+    },
+    "consumer": {
+        "name": "restaurant_consumer"
+    },
+    "interactions": [
+        {
+            "description": "restaurant list request",
+            "request": {
+                "method": "GET",
+                "path": "/restaurant"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": [
+                    {
+                        "ownerName": "\uddfe\u2362\ucd10",
+                        "websiteUrl": "\u36fd",
+                        "headChefName": "\u50d8",
+                        "name": "\u6af7",
+                        "rating": 434524772,
+                        "zagatRating": 153054573,
+                        "id": 6050090269,
+                        "cuisineType": "\u8627",
+                        "shortDescription": "\ue34b",
+                        "fullDescription": "\ua2d9",
+                        "michelinStarRating": 401491323
+                    }
+                ],
+                "matchingRules": {
+                    "$.body[*].shortDescription": {
+                        "regex": ".*"
+                    },
+                    "$.body[*].rating": {
+                        "match": "integer"
+                    },
+                    "$.body[*].fullDescription": {
+                        "regex": ".*"
+                    },
+                    "$.body[*].ownerName": {
+                        "regex": ".*"
+                    },
+                    "$.body": {
+                        "min": 0,
+                        "match": "type"
+                    },
+                    "$.body[*].cuisineType": {
+                        "regex": ".*"
+                    },
+                    "$.body[*].websiteUrl": {
+                        "regex": ".*"
+                    },
+                    "$.body[*].name": {
+                        "regex": ".*"
+                    },
+                    "$.body[*].zagatRating": {
+                        "match": "integer"
+                    },
+                    "$.body[*].michelinStarRating": {
+                        "match": "integer"
+                    },
+                    "$.body[*].headChefName": {
+                        "regex": ".*"
+                    },
+                    "$.body[*].id": {
+                        "match": "type"
+                    }
+                }
+            },
+            "providerState": "there are available restaurants"
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "2.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.3.7"
+        }
+    }
+}

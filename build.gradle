@@ -2,18 +2,39 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '1.5.2.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.3'
+    id 'au.com.dius.pact' version '3.3.7'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.hsqldb:hsqldb')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.hsqldb:hsqldb')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+}
+
+pact {
+    serviceProviders {
+        // You can define as many as you need, but each must have a unique name
+        restaurant_api {
+            // All the provider properties are optional, and have sensible defaults (shown below)
+//            protocol = 'http'
+//            host = 'localhost'
+//            port = 8080
+//            path = '/'
+            // Or if you have many pact files in a directory
+            hasPactsWith('manyConsumers') {
+                // Will define a consumer for each pact file in the directory.
+                // Consumer name is read from contents of pact file
+                pactFileLocation = file('pacts')
+            }
+        }
+    }
 }
 
 ext {
@@ -33,7 +54,7 @@ asciidoctor {
 
 jar {
     dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/html5") {
+    from("${asciidoctor.outputDir}/html5") {
         into 'static'
     }
     baseName = 'wj'
