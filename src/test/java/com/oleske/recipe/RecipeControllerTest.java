@@ -11,15 +11,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RecipeController.class)
@@ -31,7 +34,7 @@ public class RecipeControllerTest {
     private RecipeRepository mockRecipeRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         objectMapper = new ObjectMapper();
     }
 
@@ -65,11 +68,11 @@ public class RecipeControllerTest {
 
     @Test
     public void recipeContainsSignificantAmountOfDairy_whenRecipeIsNull_returnsFalse() throws Exception {
-        when(mockRecipeRepository.findOne(anyLong())).thenReturn(null);
+        when(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.empty());
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("hasDairy").value("false"));
-        verify(mockRecipeRepository).findOne(1L);
+        verify(mockRecipeRepository).findById(1L);
     }
 
     @Test
@@ -79,11 +82,11 @@ public class RecipeControllerTest {
                 singletonList(new Ingredient("Milk", IngredientCategory.DAIRY)),
                 "Swedish Chef"
         );
-        when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
+        when(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("hasDairy").value("true"));
-        verify(mockRecipeRepository).findOne(1L);
+        verify(mockRecipeRepository).findById(1L);
     }
 
     @Test
@@ -93,11 +96,11 @@ public class RecipeControllerTest {
                 singletonList(new Ingredient("Not Milk", IngredientCategory.NUT)),
                 "Swedish Chef"
         );
-        when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
+        when(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("hasDairy").value("false"));
-        verify(mockRecipeRepository).findOne(1L);
+        verify(mockRecipeRepository).findById(1L);
     }
 
     @Test
@@ -107,11 +110,11 @@ public class RecipeControllerTest {
                 singletonList(new Ingredient("Not Milk", null)),
                 "Swedish Chef"
         );
-        when(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe);
+        when(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
         mvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("hasDairy").value("false"));
-        verify(mockRecipeRepository).findOne(1L);
+        verify(mockRecipeRepository).findById(1L);
     }
 
 }

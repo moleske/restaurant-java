@@ -20,7 +20,7 @@ public class RecipeController {
 
     @GetMapping("/recipeHasDairy")
     public ResponseEntity<String> recipeContainsSignificantAmountOfDairy(@RequestParam Long id) {
-        Recipe recipe = recipeRepository.findOne(id);
+        Recipe recipe = recipeRepository.findById(id).orElse(null);
         if (recipe != null) {
             boolean result = recipe.getIngredients()
                     .stream().anyMatch(ingredient ->
