@@ -16,5 +16,5 @@ jobs:
           java-version: '18'
           distribution: 'temurin'
       - name: run gradle build
-        run: ./gradlew build --warning-mode=all
+        run: ./gradlew build --warning-mode=all --no-daemon
 
