@@ -95,7 +95,7 @@ public class DocumentationTest {
     }
 
     @Test
-    public void restaurantController() throws Exception {
+    public void restaurantController_post() throws Exception {
         Restaurant request = new Restaurant(
                 null,
                 "Swedish Food Company",
@@ -141,6 +141,28 @@ public class DocumentationTest {
                                 fieldWithPath("rating").description("Restaurant Rating"),
                                 fieldWithPath("michelinStarRating").description("Michelin Rating"),
                                 fieldWithPath("zagatRating").description("Zagat Rating")
+                        )
+                ));
+    }
+
+    @Test
+    void restaurantController_get() throws Exception {
+        mockMvc.perform(get("/restaurant"))
+                .andExpect(status().isOk())
+                .andDo(document("getRestaurant",
+                        responseFields(
+                                fieldWithPath("[]").description("An array of restaurants"),
+                                fieldWithPath("[].id").description("Id of saved of restaurant"),
+                                fieldWithPath("[].name").description("Name of Restaurant"),
+                                fieldWithPath("[].ownerName").description("Name of Owner"),
+                                fieldWithPath("[].headChefName").description("Name of Head Chef"),
+                                fieldWithPath("[].cuisineType").description("Type of Cuisine Served"),
+                                fieldWithPath("[].shortDescription").description("Short Description of Restaurant"),
+                                fieldWithPath("[].fullDescription").description("Long Description of Restaurant"),
+                                fieldWithPath("[].websiteUrl").description("Website of Restaurant"),
+                                fieldWithPath("[].rating").description("Restaurant Rating"),
+                                fieldWithPath("[].michelinStarRating").description("Michelin Rating"),
+                                fieldWithPath("[].zagatRating").description("Zagat Rating")
                         )
                 ));
     }
