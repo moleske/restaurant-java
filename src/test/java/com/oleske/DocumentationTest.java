@@ -5,15 +5,15 @@ import com.oleske.recipe.Ingredient;
 import com.oleske.recipe.IngredientCategory;
 import com.oleske.recipe.Recipe;
 import com.oleske.restaurant.Restaurant;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.JUnitRestDocumentation;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -30,20 +30,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class DocumentationTest {
-    @Rule
-    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("build/generated-snippets");
-
     @Autowired
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp(RestDocumentationContextProvider restDocumentation) {
         objectMapper = new ObjectMapper();
 
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
