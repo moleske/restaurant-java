@@ -23,7 +23,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -85,7 +85,7 @@ public class DocumentationTest {
         mockMvc.perform(get("/recipeHasDairy?id=1"))
                 .andExpect(status().isOk())
                 .andDo(document("recipeHasDairy",
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("id").description("Id of recipe")
                         ),
                         responseFields(
