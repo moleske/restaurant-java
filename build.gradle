@@ -17,6 +17,7 @@ dependencies {
         exclude group: 'junit', module: 'junit;'
     }
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 ext {
