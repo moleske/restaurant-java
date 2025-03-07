@@ -32,7 +32,7 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
     attributes 'snippets': snippetsDir
     inputs.dir snippetsDir
-    outputDir 'build/asciidoc'
+    outputDir = 'build/asciidoc'
     dependsOn test
 }
 
