@@ -1,6 +1,5 @@
 package com.oleske;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oleske.recipe.Ingredient;
 import com.oleske.recipe.IngredientCategory;
 import com.oleske.recipe.Recipe;
@@ -17,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import tools.jackson.databind.ObjectMapper;
 
 import static java.util.Collections.singletonList;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
